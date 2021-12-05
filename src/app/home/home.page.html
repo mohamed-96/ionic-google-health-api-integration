@@ -1,20 +1,51 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>
+            Home
+        </ion-title>
+        <ion-button slot="end" fill="clear" shape="round" (click)="askUnit()">
+            <ion-icon color="light" name="build-outline"> </ion-icon>
+        </ion-button>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="addLevel()">
+        <ion-fab-button>
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <h2 class="ion-padding">
+        <ion-label color="dark">Blood Glucose Levels</ion-label>
+    </h2>
+
+    <ng-container *ngFor="let r of records">
+        <ion-card [ngClass]="getClassOf(r.glucose)">
+            <ion-card-header>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="10">
+                        <ion-card-subtitle>Glucose Level :
+                            <ion-label [ngClass]="getClassOflabel(r.glucose)"><strong>{{ r.glucose | number : '1.2-2' }} {{unit}}</strong></ion-label>
+
+                        </ion-card-subtitle>
+                    </ion-col>
+                    <ion-col size="2">
+                        <ion-button fill="clear" color="medium" size="small" shape="round" (click)="addMeal(r)">
+                            <ion-icon name="add" size="large" color="primary"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ion-card-header>
+
+            <ion-card-content>
+                <ion-chip *ngFor="let m of r.meals" color="primary">
+                    <ion-label>{{m}}</ion-label>
+                </ion-chip>
+            </ion-card-content>
+        </ion-card>
+    </ng-container>
+
+    <br><br>
+
 </ion-content>
