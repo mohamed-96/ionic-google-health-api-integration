@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Health } from '@ionic-native/health/ngx';
 import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
+import { EmailComposer, EmailComposerOptions } from '@ionic-native/email-composer/ngx';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,7 @@ export class HomePage {
   constructor(
     private health: Health,
     private platform: Platform,
+    private emailComposer: EmailComposer,
     private storage: Storage,
     public alertController: AlertController,
     public loadingController: LoadingController,
@@ -94,6 +96,57 @@ export class HomePage {
     });
 
     await alert.present();
+  }
+
+  async askReceiverEmail() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Email data to a doctor',
+      inputs: [
+        {
+          name: 'email',
+          type: 'email',
+          placeholder: 'Doctor E-mail'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: (res) => {
+            this.senEmail(res.email)
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+
+  senEmail(email: string) {
+    let body = '';
+    for (const r of this.records) {
+      let foramt = r.date.toLocaleString()
+      body = '<h6> Glucose Level :' + r.glucose + '  ' + this.unit + ' AT ' + foramt + '</h6> "<br/>'
+    }
+
+
+
+    let mail: EmailComposerOptions = {
+      to: email,
+      subject: 'glucose level in blood',
+      body: body,
+      isHtml: true
+    }
+    this.emailComposer.open(mail);
+
   }
 
   async addMeal(record: any) {

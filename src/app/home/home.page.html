@@ -3,6 +3,9 @@
         <ion-title>
             Home
         </ion-title>
+        <ion-button *ngIf="records && records.length > 0" slot="end" fill="clear" shape="round" (click)="askReceiverEmail()">
+            <ion-icon color="light" name="mail"> </ion-icon>
+        </ion-button>
         <ion-button slot="end" fill="clear" shape="round" (click)="askUnit()">
             <ion-icon color="light" name="build-outline"> </ion-icon>
         </ion-button>

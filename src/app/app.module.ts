@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { Health } from '@ionic-native/health/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import { IonicStorageModule } from '@ionic/storage-angular';
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), IonicStorageModule.forRoot(),
     AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Health],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    EmailComposer,
+    Health],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
